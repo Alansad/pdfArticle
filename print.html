@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<iframe id="frame-result" style="display: none"></iframe>
+<!--<iframe id="frame-result" style="height: 100vh;width: 100vw;"></iframe>-->
+</body>
+<script>
+  downloadRes = async () => {
+    let response = await fetch('http://localhost:8888/?title=123')
+    // let response = await fetch('https://dev-gw.sunac.com.cn/file/htmlpdf/3_1624590996585.pdf')
+    // 内容转变成blob地址
+    let blob = await response.blob()
+    // const iframeEle =  document.querySelector('#frame-result')
+    // iframeEle.src = URL.createObjectURL(new Blob([blob], {type: 'application/pdf'}))
+    // if (iframeEle) {
+    //   iframeEle.onload = () => {
+    //     iframeEle.contentWindow.print();
+    //   }
+    // }
+    const newWindow = window.open(URL.createObjectURL(new Blob([blob], {type: 'application/pdf'})))
+    if (newWindow) {
+      newWindow.onload = () => {
+        newWindow.print();
+      }
+    }
+  }
+  downloadRes()
+</script>
+</html>
